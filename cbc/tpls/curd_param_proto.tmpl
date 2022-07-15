@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package curdboy.v1;
+package {{.ProtoPackageName}};
 
-//import "google/api/annotations.proto";
+option go_package = "{{.Generated_PkgPath}};{{.Generated_PkgName}}";
 
-option go_package = "github.com/pigfall/kratos-test/api;v1";
-
-message Req {
-
+message {{.Adaptor.Core.Generated_QueryRequestStructName}}  {
+	string filter =1;
+	int32 page_index =2;
+	int32 page_size =3;
 }

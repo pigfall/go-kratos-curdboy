@@ -12,17 +12,24 @@ import (
 type ServiceGenerator struct {
 	Adaptor    *Adaptor
 	TargetNode *ent.Type
+	CURDParamGenerator *CURDParamProtoGenerator 
 }
 
-func NewServiceGenerator(adaptor *Adaptor, targetNode *ent.Type) *ServiceGenerator {
+func NewServiceGenerator(adaptor *Adaptor, targetNode *ent.Type,curdParamGenerator *CURDParamProtoGenerator) *ServiceGenerator {
 	return &ServiceGenerator{
 		Adaptor:    adaptor,
 		TargetNode: targetNode,
+		CURDParamGenerator: curdParamGenerator,
 	}
 }
 
 
 func (this *ServiceGenerator) Generate() error {
+	// { api define
+
+	// }
+
+	// { service layer
 	const targetSvcDirPath = "internal/service"
 	err := os.MkdirAll(targetSvcDirPath,os.ModePerm)
 	if err != nil {
@@ -45,6 +52,7 @@ func (this *ServiceGenerator) Generate() error {
 	}
 
 	return nil
+	// }
 }
 
 func (this *ServiceGenerator) Generated_SvcStructName() string{
@@ -54,6 +62,7 @@ func (this *ServiceGenerator) Generated_SvcStructName() string{
 func (this *ServiceGenerator) Imports() []string{
 	return []string{
 		`"context"`,
-		fmt.Sprintf("\"%s\"",this.Adaptor.Core.Generated_PkgPath()),
+		//fmt.Sprintf("\"%s\"",this.Adaptor.Core.Generated_PkgPath()),
+		fmt.Sprintf("\"%s\"",this.CURDParamGenerator.Generated_PkgPath()),
 	}
 }

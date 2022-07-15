@@ -7,18 +7,18 @@ import(
 	"os"
 )
 
-type CURDParaProtoGenerator struct{
+type CURDParamProtoGenerator struct{
 	Adaptor *Adaptor
 }
 
-func NewCURDParaProtoGenerator(adaptor *Adaptor) *CURDParaProtoGenerator{
-	return &CURDParaProtoGenerator{
+func NewCURDParamProtoGenerator(adaptor *Adaptor) *CURDParamProtoGenerator {
+	return &CURDParamProtoGenerator {
 		Adaptor: adaptor,
 	}
 }
 
-func (this *CURDParaProtoGenerator) Generate() error {
-	var targetDirPath = "api"
+func (this *CURDParamProtoGenerator ) Generate() error {
+	var targetDirPath = this.ReleativeTargetDirPath()
 	err := os.MkdirAll(targetDirPath,os.ModePerm)
 	if err != nil{
 		return err
@@ -37,6 +37,18 @@ func (this *CURDParaProtoGenerator) Generate() error {
 	return tplIns.Execute(generatedFile,this)
 }
 
-func (this *CURDParaProtoGenerator) Generated_PkgPath() string{
+func (this *CURDParamProtoGenerator) Generated_PkgName()string {
+	return "common"
+}
+
+func (this *CURDParamProtoGenerator) ProtoPackageName() string{
+	return "curdboy.common"
+}
+
+func (this *CURDParamProtoGenerator) ReleativeTargetDirPath() string{
 	return "api"
+}
+
+func (this *CURDParamProtoGenerator ) Generated_PkgPath() string{
+	return path.Join(this.Adaptor.Core.Module.Path,this.ReleativeTargetDirPath())
 }

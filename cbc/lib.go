@@ -23,14 +23,16 @@ func NewAdaptor(core *cbc_core.CURDGraphGenerator)*Adaptor{
 func (this *Adaptor) Generate() error {
 
 	// { proto for curd param
-	if err := NewCURDParaProtoGenerator(this).Generate();err != nil{
+
+	curdParamProtoGenerator :=NewCURDParamProtoGenerator(this)
+	if err := curdParamProtoGenerator.Generate();err != nil{
 		return err
 	}
 	// }
 
 	// { service for nodes
 	for _,node := range this.Core.Graph.GetNodes(){
-		err := NewServiceGenerator(this,node).Generate()
+		err := NewServiceGenerator(this,node,curdParamProtoGenerator).Generate()
 		if err != nil {
 			return err
 		}
