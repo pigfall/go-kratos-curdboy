@@ -1,12 +1,18 @@
 package {{.Generated_PkgName}}
 
 import(
-  {{range .Imports -}}
+  {{- range .Imports }}
   {{.}}
   {{- end}}
 )
 
+{{- $core := .Core -}}
+{{- $curdParamGenerator := .ServiceGenerator.CURDParamGenerator -}}
+{{- $targetNode := .ServiceGenerator.TargetNode -}}
+{{ $curdNodeGenerator :=  .CURDNodeGenerator}}
+
 type {{.Generated_StructName}} struct{
+  entCli *{{$core.EntPkgName}}.Client
 
 }
 
@@ -14,5 +20,22 @@ type {{.Generated_StructName}} struct{
 
 
 func (this *{{.Generated_StructName}}) {{.Generated_CreateFuncName}} (ctx context.Context,data map[string]interface{}) (id {{$targetNode.ID.Type.Type.String}},outErr error){
-  panic("TODO")
+  return {{$core.GeneratedPkgName}}.{{$curdNodeGenerator.GenerateCreateFuncName}}(ctx,data,this.entCli) 
+}
+
+func (this *{{.Generated_StructName}}) {{.Generated_QueryFuncName}} (ctx context.Context,query *{{ $curdParamGenerator.Generated_PkgName }}.{{$curdParamGenerator.Adaptor.Core.Generated_QueryRequestStructName}}) (records []*{{ $core.EntPkgName }}.{{ $targetNode.Name }},count int,err error){
+  q := &{{$core.GeneratedPkgName}}.{{$core.Generated_QueryRequestStructName}}{
+    Filter: query.Filter,
+    PageIndex: int(query.PageIndex),
+    PageSize: int(query.PageSize),
+  }
+
+  records,err = {{$core.GeneratedPkgName}}.{{$curdNodeGenerator.GeneratedQueryFuncName}}(ctx,q,this.entCli) 
+  if err != nil{
+    return nil,0,err
+  }
+
+  // TODO count
+
+  return records,count,nil
 }

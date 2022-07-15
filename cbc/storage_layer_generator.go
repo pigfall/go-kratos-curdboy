@@ -3,6 +3,7 @@ package cbc
 import(
 	"os"
 	"fmt"
+	cbc_core "github.com/pigfall/curdboy/curdboyc"
 	"strings"
 	"path"
 	tpl "text/template"
@@ -55,6 +56,9 @@ func (this *StorageLayerGenerator) Generated_PkgName() string{
 func (this *StorageLayerGenerator) Imports() []string{
 	return []string{
 		`"context"`,
+		fmt.Sprintf("\"%s\"",this.Core().Generated_PkgPath()),
+		fmt.Sprintf("\"%s\"",this.Core().EntPkgPath()),
+		fmt.Sprintf("\"%s\"",this.ServiceGenerator.CURDParamGenerator.Generated_PkgPath()),
 	}
 }
 
@@ -63,6 +67,24 @@ func (this *StorageLayerGenerator) Generated_StructName() string{
 }
 
 func (this *StorageLayerGenerator) Generated_CreateFuncName() string{
-	return "Create"
+	return this.BizLayer().Generated_CreateFuncName()
+}
+
+func (this *StorageLayerGenerator) Generated_QueryFuncName() string{
+	return this.BizLayer().Generated_QueryFuncName()
+}
+
+
+func (this *StorageLayerGenerator) BizLayer() *BizGenerator{
+	return this.ServiceGenerator.BizLayer()
+}
+
+func (this *StorageLayerGenerator) Core() *cbc_core.CURDGraphGenerator{
+	return this.ServiceGenerator.Adaptor.Core
+
+}
+
+func (this *StorageLayerGenerator) CURDNodeGenerator() *cbc_core.CURDNodeGenerator{
+	return cbc_core.NewCURDNodeGenerator(this.ServiceGenerator.TargetNode,this.Core())
 }
 
