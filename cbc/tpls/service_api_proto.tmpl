@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package {{.ProtoPkgName}};
+
+import "google/api/annotations.proto";
+import "curd_param.proto";
+
+option go_package = "{{.Generated_PkgPath}};{{.Generated_PkgName}}";
+

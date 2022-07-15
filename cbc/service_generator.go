@@ -26,12 +26,16 @@ func NewServiceGenerator(adaptor *Adaptor, targetNode *ent.Type,curdParamGenerat
 
 func (this *ServiceGenerator) Generate() error {
 	// { api define
-
+	apiGenerator := NewServiceApiGenerator(this)
+	err := apiGenerator.Generate()
+	if err != nil {
+		return err
+	}
 	// }
 
 	// { service layer
 	const targetSvcDirPath = "internal/service"
-	err := os.MkdirAll(targetSvcDirPath,os.ModePerm)
+	err = os.MkdirAll(targetSvcDirPath,os.ModePerm)
 	if err != nil {
 		return err
 	}
