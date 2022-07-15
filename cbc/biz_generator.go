@@ -37,7 +37,19 @@ func (this *BizGenerator) Generate()error{
 	}
 
 
-	return  tplIns.Execute(generatedFile,this)
+	err = tplIns.Execute(generatedFile,this)
+	if err != nil{
+		return err
+	}
+
+	// { storage layer
+	err = NewStorageLayerGenerator(this.ServiceGenerator).Generate()
+	if err != nil {
+		return err
+	}
+	// }
+
+	return nil
 }
 
 func (this *BizGenerator) Imports() []string{
