@@ -3,14 +3,16 @@ package service
 import(
   {{range .Imports}}
   {{.}}
-  {{end}}
+  {{- end}}
 )
 
 {{- $core:=.Adaptor.Core -}}
 {{- $curdGenPkgName:= $core.GeneratedPkgName -}}
+{{- $curdParamGenerator := .CURDParamGenerator -}}
 
-{{- $targetNode:= .TargetNode }}
-{{- $targetPBPkgName := .ServiceApiGenerator.Generated_PkgName -}}
+
+{{- $targetNode:= .TargetNode -}}
+{{- $targetPBPkgName := .ServiceApiGenerator.Generated_PkgName }}
 
 type {{.Generated_SvcStructName}} struct{
   {{ $targetPBPkgName }}.Unimplemented{{$targetNode.Name}}Server
@@ -20,4 +22,8 @@ type {{.Generated_SvcStructName}} struct{
 func (this *{{.Generated_SvcStructName}}) Create(ctx context.Context,req *structpb.Struct)(id {{ $targetNode.ID.Type.Type.String }},err error){
   data := req.AsMap()
   return this.bizIns.{{.BizGenerator.Generated_CreateFuncName}}(ctx,data)
+}
+
+func (this *{{.Generated_SvcStructName}}) Query(ctx context.Context,req *{{ $curdParamGenerator.Generated_PkgName }}.{{$curdParamGenerator.Adaptor.Core.Generated_QueryRequestStructName}}) (*{{.ApiLayer.Generated_PkgName}}.{{.ApiLayer.Generated_Proto_QueryResponseMessageName}},error){
+  return this.bizIns.{{.BizLayer.Generated_QueryFuncName}}(ctx,req)
 }

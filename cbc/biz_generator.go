@@ -45,6 +45,9 @@ func (this *BizGenerator) Imports() []string{
 		`"context"`,
 		fmt.Sprintf("\"%s\"",this.ServiceGenerator.CURDParamGenerator.Generated_PkgPath()),
 		fmt.Sprintf("\"%s\"",this.ServiceGenerator.ServiceApiGenerator.Generated_PkgPath()),
+		fmt.Sprintf("\"%s\"",this.ServiceGenerator.Adaptor.Core.EntPkgPath()),
+		"structpb \"google.golang.org/protobuf/types/known/structpb\"",
+		`"encoding/json"`,
 	}
 }
 
@@ -79,4 +82,12 @@ func (this *BizGenerator) Generated_DataInterfaceName() string{
 
 func (this *BizGenerator) Generated_DataInterfaceCreateFuncName() string{
 	return "Create"
+}
+
+func (this *BizGenerator) Generated_DataInterfaceQueryFuncName() string{
+	return "Query"
+}
+
+func (this *BizGenerator) ApiLayer() *ServiceApiGenerator{
+	return this.ServiceGenerator.ServiceApiGenerator
 }

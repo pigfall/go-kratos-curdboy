@@ -72,3 +72,7 @@ func (this *ServiceApiGenerator) RelativeTargetDirPath() string {
 func (this *ServiceApiGenerator) Generated_Proto_QueryResponseMessageName() string{
 	return fmt.Sprintf("%sQueryResponse",this.SvcGenerator.TargetNode.Name())
 }
+
+func (this *ServiceApiGenerator) Generated_Proto_QueryResponseMetaMessageName() string{
+	return fmt.Sprintf("%sQueryResponseMeta",this.SvcGenerator.TargetNode.Name())
+}

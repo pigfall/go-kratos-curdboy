@@ -84,5 +84,15 @@ func (this *ServiceGenerator) Imports() []string{
 		fmt.Sprintf("\"%s\"",this.CURDParamGenerator.Generated_PkgPath()),
 		fmt.Sprintf("\"%s\"",this.ServiceApiGenerator.Generated_PkgPath()),
 		"structpb \"google.golang.org/protobuf/types/known/structpb\"",
+		fmt.Sprintf("\"%s\"",this.BizGenerator.Generated_PkgPath()),
 	}
 }
+
+func (this *ServiceGenerator) ApiLayer() *ServiceApiGenerator {
+	return this.ServiceApiGenerator
+}
+
+func (this *ServiceGenerator) BizLayer() *BizGenerator {
+	return this.BizGenerator
+}
+
