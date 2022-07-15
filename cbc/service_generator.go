@@ -13,20 +13,25 @@ type ServiceGenerator struct {
 	Adaptor    *Adaptor
 	TargetNode *ent.Type
 	CURDParamGenerator *CURDParamProtoGenerator 
+	ServiceApiGenerator *ServiceApiGenerator
+	BizGenerator *BizGenerator
 }
 
 func NewServiceGenerator(adaptor *Adaptor, targetNode *ent.Type,curdParamGenerator *CURDParamProtoGenerator) *ServiceGenerator {
-	return &ServiceGenerator{
+	s := &ServiceGenerator{
 		Adaptor:    adaptor,
 		TargetNode: targetNode,
 		CURDParamGenerator: curdParamGenerator,
 	}
+	s.ServiceApiGenerator = NewServiceApiGenerator(s)
+	s.BizGenerator = NewBizGenerator(s)
+	return s
 }
 
 
 func (this *ServiceGenerator) Generate() error {
 	// { api define
-	apiGenerator := NewServiceApiGenerator(this)
+	apiGenerator := this.ServiceApiGenerator
 	err := apiGenerator.Generate()
 	if err != nil {
 		return err
@@ -50,10 +55,19 @@ func (this *ServiceGenerator) Generate() error {
 	if err != nil {
 		return err
 	}
+	//svcTpl.ParseFS(this.Adaptor.Core.TemplatesFS(),"")
 	err = svcTpl.Execute(generatedSvcFile,this)
 	if err != nil {
 		return err
 	}
+
+	// { generate biz layer
+	err = this.BizGenerator.Generate()
+	if err != nil {
+		return err
+	}
+
+	// }
 
 	return nil
 	// }
@@ -68,5 +82,7 @@ func (this *ServiceGenerator) Imports() []string{
 		`"context"`,
 		//fmt.Sprintf("\"%s\"",this.Adaptor.Core.Generated_PkgPath()),
 		fmt.Sprintf("\"%s\"",this.CURDParamGenerator.Generated_PkgPath()),
+		fmt.Sprintf("\"%s\"",this.ServiceApiGenerator.Generated_PkgPath()),
+		"structpb \"google.golang.org/protobuf/types/known/structpb\"",
 	}
 }

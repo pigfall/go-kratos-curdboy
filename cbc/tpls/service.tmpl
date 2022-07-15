@@ -10,11 +10,14 @@ import(
 {{- $curdGenPkgName:= $core.GeneratedPkgName -}}
 
 {{- $targetNode:= .TargetNode }}
+{{- $targetPBPkgName := .ServiceApiGenerator.Generated_PkgName -}}
 
 type {{.Generated_SvcStructName}} struct{
-
+  {{ $targetPBPkgName }}.Unimplemented{{$targetNode.Name}}Server
+  bizIns biz.{{ .BizGenerator.StructName }}
 }
 
-func (this *{{.Generated_SvcStructName}}) Create(ctx context.Context,req {{ $curdGenPkgName}}.{{ $core.Generated_QueryRequestStructName }})(id interface{},err error){
-  panic("TODO")
+func (this *{{.Generated_SvcStructName}}) Create(ctx context.Context,req *structpb.Struct)(id {{ $targetNode.ID.Type.Type.String }},err error){
+  data := req.AsMap()
+  return this.bizIns.{{.BizGenerator.Generated_CreateFuncName}}(ctx,data)
 }

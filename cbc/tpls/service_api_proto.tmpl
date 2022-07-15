@@ -3,6 +3,7 @@ syntax = "proto3";
 package {{.ProtoPkgName}};
 
 import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
 import "curd_param.proto";
 
 option go_package = "{{.Generated_PkgPath}};{{.Generated_PkgName}}";
@@ -11,8 +12,8 @@ option go_package = "{{.Generated_PkgPath}};{{.Generated_PkgName}}";
 {{- $targetNode := .SvcGenerator.TargetNode -}}
 
 service {{$targetNode.Name}}{
-  rpc Create(curdboy.common.{{$core.Generated_QueryRequestStructName}}) return({{$targetNode.Name}}CreateResponse);
-  rpc Query(curdboy.common.{{$core.Generated_QueryRequestStructName}}) return({{ $targetNode.Name }}QueryResponse);
+  rpc Create(google.protobuf.Struct) returns({{$targetNode.Name}}CreateResponse);
+  rpc Query(curdboy.common.{{$core.Generated_QueryRequestStructName}}) returns({{ $targetNode.Name }}QueryResponse);
 }
 
 message {{ $targetNode.Name }}CreateResponse{
@@ -20,7 +21,11 @@ message {{ $targetNode.Name }}CreateResponse{
 }
 
 message {{ $targetNode.Name }}QueryResponse{
-  
+  {{ $targetNode.Name }}QueryResponseMeta meta =1;
+  repeated google.protobuf.Struct data=2;
+}
+
+message {{ $targetNode.Name }}QueryResponseMeta{
 
 }
 
