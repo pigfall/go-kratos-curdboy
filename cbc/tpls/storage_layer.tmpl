@@ -13,7 +13,12 @@ import(
 
 type {{.Generated_StructName}} struct{
   entCli *{{$core.EntPkgName}}.Client
+}
 
+func New{{.Generated_StructName}} (entCli *{{$core.EntPkgName}}.Client) {{.BizLayer.Generated_PkgName}}.{{.BizLayer.Generated_DataInterfaceName}}{
+  return &{{.Generated_StructName}}{
+    entCli: entCli,
+  }
 }
 
 {{ $targetNode := .ServiceGenerator.TargetNode -}}

@@ -59,6 +59,7 @@ func (this *StorageLayerGenerator) Imports() []string{
 		fmt.Sprintf("\"%s\"",this.Core().Generated_PkgPath()),
 		fmt.Sprintf("\"%s\"",this.Core().EntPkgPath()),
 		fmt.Sprintf("\"%s\"",this.ServiceGenerator.CURDParamGenerator.Generated_PkgPath()),
+		fmt.Sprintf("\"%s\"",this.BizLayer().Generated_PkgPath()),
 	}
 }
 

@@ -16,7 +16,13 @@ import(
 
 type {{.Generated_SvcStructName}} struct{
   {{ $targetPBPkgName }}.Unimplemented{{$targetNode.Name}}Server
-  bizIns biz.{{ .BizGenerator.StructName }}
+  bizIns *biz.{{ .BizGenerator.StructName }}
+}
+
+func New{{.Generated_SvcStructName}}(bizIns *biz.{{ .BizGenerator.StructName }}) *{{.Generated_SvcStructName}}{
+  return &{{.Generated_SvcStructName}}{
+    bizIns:bizIns,
+  }
 }
 
 func (this *{{.Generated_SvcStructName}}) Create(ctx context.Context,req *structpb.Struct)(id {{ $targetNode.ID.Type.Type.String }},err error){
