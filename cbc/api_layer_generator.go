@@ -35,7 +35,7 @@ func (this *ServiceApiGenerator) Generate() error {
 	}
 	defer generatedFile.Close()
 
-	tplIns, err := tpl.New("service_api_proto.tmpl").ParseFS(templates,"tpls/service_api_proto.tmpl")
+	tplIns, err := tpl.New("api_layer.tmpl").ParseFS(templates,"tpls/api_layer.tmpl")
 	if err != nil {
 		return err
 	}

@@ -23,13 +23,13 @@ func (this *CURDParamProtoGenerator ) Generate() error {
 	if err != nil{
 		return err
 	}
-	generatedFile,err := os.Create(path.Join(targetDirPath,"curd_param.proto"))
+	generatedFile,err := os.Create(path.Join(targetDirPath,"common.proto"))
 	if err != nil {
 		return err
 	}
 	defer generatedFile.Close()
 
-	tplIns,err := tpl.New("curd_param_proto.tmpl").ParseFS(templates,"tpls/curd_param_proto.tmpl")
+	tplIns,err := tpl.New("common_api_layer.tmpl").ParseFS(templates,"tpls/common_api_layer.tmpl")
 	if err != nil {
 		return err
 	}

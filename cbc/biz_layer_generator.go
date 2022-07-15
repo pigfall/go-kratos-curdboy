@@ -19,7 +19,7 @@ func NewBizGenerator(svcGenerator *ServiceGenerator)*BizGenerator{
 }
 
 func (this *BizGenerator) Generate()error{
-	tplIns,err := tpl.New("biz.tmpl").ParseFS(templates,"tpls/biz.tmpl")
+	tplIns,err := tpl.New("biz_layer.tmpl").ParseFS(templates,"tpls/biz_layer.tmpl")
 	if err != nil {
 		return err
 	}

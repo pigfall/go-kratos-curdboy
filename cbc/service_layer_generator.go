@@ -51,7 +51,7 @@ func (this *ServiceGenerator) Generate() error {
 	}
 	defer generatedSvcFile.Close()
 
-	svcTpl,err := tpl.New("service.tmpl").ParseFS(templates,"tpls/service.tmpl")
+	svcTpl,err := tpl.New("service_layer.tmpl").ParseFS(templates,"tpls/service_layer.tmpl")
 	if err != nil {
 		return err
 	}
