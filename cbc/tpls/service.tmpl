@@ -1,0 +1,20 @@
+package service
+
+import(
+  {{range .Imports}}
+  {{.}}
+  {{end}}
+)
+
+{{- $core:=.Adaptor.Core -}}
+{{- $curdGenPkgName:= $core.GeneratedPkgName -}}
+
+{{- $targetNode:= .TargetNode }}
+
+type {{.Generated_SvcStructName}} struct{
+
+}
+
+func (this *{{.Generated_SvcStructName}}) Create(ctx context.Context,req {{ $curdGenPkgName}}.{{ $core.Generated_QueryRequestStructName }})(id interface{},err error){
+  panic("TODO")
+}
