@@ -43,6 +43,8 @@ func (this *BizGenerator) Generate()error{
 func (this *BizGenerator) Imports() []string{
 	return []string {
 		`"context"`,
+		fmt.Sprintf("\"%s\"",this.ServiceGenerator.CURDParamGenerator.Generated_PkgPath()),
+		fmt.Sprintf("\"%s\"",this.ServiceGenerator.ServiceApiGenerator.Generated_PkgPath()),
 	}
 }
 
@@ -51,7 +53,11 @@ func (this *BizGenerator) StructName() string{
 }
 
 func (this *BizGenerator) Generated_CreateFuncName() string{
-	return fmt.Sprintf("Create")
+	return "Create"
+}
+
+func (this *BizGenerator) Generated_QueryFuncName() string{
+	return "Query"
 }
 
 func (this *BizGenerator) ReleativeTargetDirPath() string{

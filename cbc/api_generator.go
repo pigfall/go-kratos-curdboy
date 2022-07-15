@@ -68,3 +68,7 @@ func (this *ServiceApiGenerator) Generated_PkgPath() string{
 func (this *ServiceApiGenerator) RelativeTargetDirPath() string {
 	return fmt.Sprintf("api/%s/%s",strings.ToLower(this.SvcGenerator.TargetNode.Name()),this.ApiVersion()) 
 }
+
+func (this *ServiceApiGenerator) Generated_Proto_QueryResponseMessageName() string{
+	return fmt.Sprintf("%sQueryResponse",this.SvcGenerator.TargetNode.Name())
+}

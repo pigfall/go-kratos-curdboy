@@ -20,7 +20,7 @@ message {{ $targetNode.Name }}CreateResponse{
   {{ template "ProtoFieldType_From_EntFieldType" $targetNode.ID.Type.Type }} id =1;
 }
 
-message {{ $targetNode.Name }}QueryResponse{
+message {{.Generated_Proto_QueryResponseMessageName}}{
   {{ $targetNode.Name }}QueryResponseMeta meta =1;
   repeated google.protobuf.Struct data=2;
 }

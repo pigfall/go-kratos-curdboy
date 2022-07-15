@@ -7,7 +7,9 @@ import(
 )
 
 
-{{- $targetNode:= .ServiceGenerator.TargetNode  }}
+{{- $targetNode:= .ServiceGenerator.TargetNode  -}}
+{{- $curdParamGenerator := .ServiceGenerator.CURDParamGenerator -}}
+{{- $apiGenerator := .ServiceGenerator.ServiceApiGenerator }}
 
 type {{.StructName}} struct{
   storage {{.Generated_DataInterfaceName}}
@@ -17,6 +19,10 @@ type {{ .Generated_DataInterfaceName}} interface{
   {{.Generated_DataInterfaceCreateFuncName}}(ctx context.Context,data map[string]interface{})(id {{$targetNode.ID.Type.Type.String}},err error)
 }
 
-func (this *{{.StructName}}) Create (ctx context.Context, data map[string]interface{})(id {{$targetNode.ID.Type.Type.String}},err error){
+func (this *{{.StructName}}) {{.Generated_CreateFuncName}} (ctx context.Context, data map[string]interface{})(id {{$targetNode.ID.Type.Type.String}},err error){
   return this.storage.{{.Generated_DataInterfaceCreateFuncName}}(ctx,data)
+}
+
+func (this *{{.StructName}}) {{.Generated_QueryFuncName}} (ctx context.Context, req *{{ $curdParamGenerator.Generated_PkgName }}.{{$curdParamGenerator.Adaptor.Core.Generated_QueryRequestStructName}}) (*{{ $apiGenerator.Generated_PkgName }}.{{$apiGenerator.Generated_Proto_QueryResponseMessageName}}, error){
+  panic("TODO")
 }
