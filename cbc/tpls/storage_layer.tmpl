@@ -40,7 +40,11 @@ func (this *{{.Generated_StructName}}) {{.Generated_QueryFuncName}} (ctx context
     return nil,0,err
   }
 
-  // TODO count
+  // TODO count, optimize , do not parse filter twice
+  count,err = {{$core.GeneratedPkgName}}.{{$curdNodeGenerator.GeneratedCountFuncName}}(ctx,this.entCli,q.Filter)
+  if err != nil{
+    return nil,0,err
+  }
 
   return records,count,nil
 }
