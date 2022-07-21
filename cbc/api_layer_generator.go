@@ -35,7 +35,11 @@ func (this *ServiceApiGenerator) Generate() error {
 	}
 	defer generatedFile.Close()
 
-	tplIns, err := tpl.New("api_layer.tmpl").ParseFS(templates,"tpls/api_layer.tmpl")
+	tplIns, err := tpl.New("api_layer.tmpl").Funcs(map[string]any{
+		"toLowerCase":func(input string)string{
+			return strings.ToLower(input)
+		},
+	}).ParseFS(templates,"tpls/api_layer.tmpl")
 	if err != nil {
 		return err
 	}

@@ -3,7 +3,7 @@ package cbc
 import(
 	"path"
 	tpl "text/template"
-
+	"io"
 	"os"
 )
 
@@ -34,7 +34,43 @@ func (this *CURDParamProtoGenerator ) Generate() error {
 		return err
 	}
 
-	return tplIns.Execute(generatedFile,this)
+	err =  tplIns.Execute(generatedFile,this)
+	if err != nil{
+		return err
+	}
+
+	// { put openapi proto to third_party
+	openApiDirPath := path.Join("third_party","protoc-gen-openapiv2","options")
+	err = os.MkdirAll(openApiDirPath,os.ModePerm)
+	if err != nil {
+		return err
+	}
+	var embedFSBasePath = "third_party/openapi_protos"
+	entries,err := thirdParty.ReadDir(embedFSBasePath)
+	if err != nil {
+		return err
+	}
+	for _,e := range entries{
+		f,err := thirdParty.Open(path.Join(embedFSBasePath,e.Name()))
+		if err != nil {
+			return err
+		}
+		
+		dstFile,err := os.Create(path.Join(openApiDirPath,e.Name()))
+		if err != nil {
+			return err
+		}
+		_,err = io.Copy(dstFile,f)
+		if err != nil {
+			return err
+		}
+		err = dstFile.Close()
+		if err != nil {
+			return err
+		}
+	}
+	// }
+	return nil
 }
 
 func (this *CURDParamProtoGenerator) Generated_PkgName()string {
