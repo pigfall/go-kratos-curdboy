@@ -2,7 +2,10 @@ module github.com/pigfall/go-kratos-curdboy
 
 go 1.18
 
-require github.com/spf13/cobra v1.5.0
+require (
+	github.com/pigfall/ent_utils v0.0.2
+	github.com/pigfall/gosdk v0.0.4
+)
 
 require (
 	ariga.io/atlas v0.3.7-0.20220303204946-787354f533c3 // indirect
@@ -17,7 +20,7 @@ require (
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/mitchellh/go-wordwrap v0.0.0-20150314170334-ad45545899c7 // indirect
-	github.com/pigfall/ent_utils v0.0.1 // indirect
+	github.com/mitchellh/mapstructure v1.4.3 // indirect
 	github.com/zclconf/go-cty v1.8.0 // indirect
 	golang.org/x/mod v0.5.1 // indirect
 	golang.org/x/sys v0.0.0-20211205182925-97ca703d548d // indirect
@@ -26,10 +29,4 @@ require (
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )
 
-require (
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
-	github.com/pigfall/curdboy v0.0.1
-	github.com/spf13/pflag v1.0.5 // indirect
-)
-
-replace github.com/pigfall/curdboy => ../curdboy
+require github.com/pigfall/curdboy v0.0.3

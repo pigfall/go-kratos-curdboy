@@ -55,9 +55,10 @@ func (this *BizGenerator) Generate()error{
 func (this *BizGenerator) Imports() []string{
 	return []string {
 		`"context"`,
+		fmt.Sprintf("\"%s\"",this.ServiceGenerator.Adaptor.Core.Generated_PkgPath()),
 		fmt.Sprintf("\"%s\"",this.ServiceGenerator.CURDParamGenerator.Generated_PkgPath()),
 		fmt.Sprintf("\"%s\"",this.ServiceGenerator.ServiceApiGenerator.Generated_PkgPath()),
-		fmt.Sprintf("\"%s\"",this.ServiceGenerator.Adaptor.Core.EntPkgPath()),
+		//fmt.Sprintf("\"%s\"",this.ServiceGenerator.Adaptor.Core.EntPkgPath()),
 		"structpb \"google.golang.org/protobuf/types/known/structpb\"",
 		`"encoding/json"`,
 	}

@@ -8,6 +8,10 @@ import(
 //go:embed tpls/*
 var templates embed.FS
 
+//go:embed third_party/openapi_protos/*
+var thirdParty embed.FS
+
+
 
 type Adaptor struct {
 	Core *cbc_core.CURDGraphGenerator
