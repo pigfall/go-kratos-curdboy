@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/pigfall/ent_utils v0.0.2
-	github.com/spf13/cobra v1.5.0
+	github.com/pigfall/gosdk v0.0.4
 )
 
 require (
@@ -29,10 +29,4 @@ require (
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 )
 
-require (
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
-	github.com/pigfall/curdboy v0.0.1
-	github.com/spf13/pflag v1.0.5 // indirect
-)
-
-replace github.com/pigfall/curdboy => ../curdboy
+require github.com/pigfall/curdboy v0.0.3
