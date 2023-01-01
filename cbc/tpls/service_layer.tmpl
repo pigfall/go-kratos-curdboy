@@ -25,9 +25,19 @@ func New{{.Generated_SvcStructName}}(bizIns *biz.{{ .BizGenerator.StructName }})
   }
 }
 
-func (this *{{.Generated_SvcStructName}}) Create(ctx context.Context,req *structpb.Struct)(id {{ $targetNode.ID.Type.Type.String }},err error){
+func (this *{{.Generated_SvcStructName}}) Create(ctx context.Context,req *structpb.Struct)(*{{.ApiLayer.Generated_PkgName}}.{{.ApiLayer.Generated_Proto_CreateResponseMessageName}},error){
   data := req.AsMap()
-  return this.bizIns.{{.BizGenerator.Generated_CreateFuncName}}(ctx,data)
+  id,err := this.bizIns.{{.BizGenerator.Generated_CreateFuncName}}(ctx,data)
+  if err != nil{
+    return nil,err
+  }
+
+  // TODO map from ent field type to go type.
+  {{ if $targetNode.ID.Type.Numeric }}
+    return &{{.ApiLayer.Generated_PkgName}}.{{.ApiLayer.Generated_Proto_CreateResponseMessageName}}{Id:int32(id)},nil
+  {{ else }}
+    return &{{.ApiLayer.Generated_PkgName}}.{{.ApiLayer.Generated_Proto_CreateResponseMessageName}}{Id:id},nil
+  {{ end }}
 }
 
 func (this *{{.Generated_SvcStructName}}) Query(ctx context.Context,req *{{ $curdParamGenerator.Generated_PkgName }}.{{$curdParamGenerator.Adaptor.Core.Generated_QueryRequestStructName}}) (*{{.ApiLayer.Generated_PkgName}}.{{.ApiLayer.Generated_Proto_QueryResponseMessageName}},error){
