@@ -30,3 +30,5 @@ require (
 )
 
 require github.com/pigfall/curdboy v0.0.3
+
+replace github.com/pigfall/curdboy => ../curdboysdf
